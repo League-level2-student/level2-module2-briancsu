@@ -3,16 +3,19 @@ package _08_LeagueSnake;
 import processing.core.PApplet;
 
 public class LeagueSnake extends PApplet {
-    static final int WIDTH = 800;
-    static final int HEIGHT = 800;
+    static final int WIDTH = 500;
+    static final int HEIGHT = 500;
     
     /*
      * Game variables
      * 
      * Put all the game variables here.
      */
-    
-
+    int foodX;
+    int foodY;
+    Segment head;
+    int foodEaten;
+    int direction = UP;
     
     /*
      * Setup methods
@@ -21,17 +24,20 @@ public class LeagueSnake extends PApplet {
      */
     @Override
     public void settings() {
-        
+        size(WIDTH,HEIGHT);
     }
 
     @Override
     public void setup() {
-        
+        head = new Segment(WIDTH/2,HEIGHT/2);
+        frameRate(10);
+        dropFood();
     }
 
     void dropFood() {
         // Set the food in a new random location
-        
+    	foodX = ((int)random(50)*10);
+    	foodY = ((int)random(50)*10);
     }
 
     /*
@@ -42,18 +48,24 @@ public class LeagueSnake extends PApplet {
 
     @Override
     public void draw() {
+        background(0,0,0);
+    	drawFood();
+        move();
+    	drawSnake();
         
     }
 
     void drawFood() {
         // Draw the food
-        
+        fill(255,0,0);
+    	rect(foodX,foodY,10,10);
     }
 
     void drawSnake() {
         // Draw the head of the snake followed by its tail
+    	fill(0,255,0);
+    	rect(head.x,head.y,10,10);
     }
-
     void drawTail() {
         // Draw each segment of the tail
         
@@ -86,25 +98,38 @@ public class LeagueSnake extends PApplet {
     @Override
     public void keyPressed() {
         // Set the direction of the snake according to the arrow keys pressed
-        
+        if(keyCode == UP) {
+        	direction = UP;
+        }
+        else if(keyCode == DOWN) {
+        	direction = DOWN;
+        }
+        else if(keyCode == LEFT) {
+        	direction = LEFT;
+        }
+        else if(keyCode == RIGHT) {
+        	direction = RIGHT;
+        }
     }
 
     void move() {
         // Change the location of the Snake head based on the direction it is moving.
 
-        /*
+        
         if (direction == UP) {
-            // Move head up
+            head.y -=7;
+        	// Move head up
             
         } else if (direction == DOWN) {
-            // Move head down
+        	head.y +=7;
+        	// Move head down
                 
         } else if (direction == LEFT) {
-            
+        	head.x -=7;
         } else if (direction == RIGHT) {
-            
+        	head.x +=7;
         }
-        */
+        
     }
 
     void checkBoundaries() {

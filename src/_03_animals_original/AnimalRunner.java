@@ -7,7 +7,7 @@ package _03_animals_original;
  * 
  * 3. Go look at theAnimalRunner class in the _04_animals_inheritance package.
  */
-public class AnimalRunner {
+public class AnimalRunner{
 	public static void main(String[] args) {
 		Dog d = new Dog("Lucy", "brown", true);
 		d.printName();
