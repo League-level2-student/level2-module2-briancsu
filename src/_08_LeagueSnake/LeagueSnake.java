@@ -16,7 +16,7 @@ public class LeagueSnake extends PApplet {
     int foodX;
     int foodY;
     Segment head;
-    int foodEaten;
+    int foodEaten = 0;
     int direction = UP;
     ArrayList <Segment> seg = new ArrayList<Segment>();
     
@@ -55,8 +55,8 @@ public class LeagueSnake extends PApplet {
     	drawFood();
         move();
     	drawSnake();
-        eat();
         checkBoundaries();
+        eat();
     }
 
     void drawFood() {
@@ -74,9 +74,22 @@ public class LeagueSnake extends PApplet {
     void drawTail() {
         // Draw each segment of the tail
     	fill(0,255,0);
-    	for(Segment s: seg) {
+    	for(int i = 0; i < seg.size(); ++i) {
+    		
     	
-    	rect(head.x, head.y,10,10);
+    	if(direction == UP) { 
+    		rect(head.x, head.y+(10 * i),10,10);
+    	}
+    	
+    	else if(direction == DOWN) {
+    		rect(head.x, head.y-(10 * i),10,10);
+    	}
+    	else if(direction == LEFT) {
+    		rect(head.x + (10 * i), head.y,10,10);
+        }
+    	if(direction == RIGHT) {
+    		rect(head.x - (10 * i), head.y,10,10);
+        }
     	}
     }
 
@@ -90,7 +103,9 @@ public class LeagueSnake extends PApplet {
         // After drawing the tail, add a new segment at the "start" of the tail and
         // remove the one at the "end"
         // This produces the illusion of the snake tail moving.
+    	
     	checkTailCollision();
+    	
     	drawTail();
     	seg.add(new Segment (head.x,head.y));
     	seg.remove(0);
@@ -99,10 +114,11 @@ public class LeagueSnake extends PApplet {
     void checkTailCollision() {
         // If the snake crosses its own tail, shrink the tail back to one segment
         for(int i = 0; i < seg.size(); ++i) {
-        	if(head.x >= seg.get(i).x - 10 && head.x <= seg.get(i).x +10 && head.y >= seg.get(i).y - 10 && head.y <= seg.get(i).y +10) {
+        	if(head.x == seg.get(i).x && head.y == seg.get(i).y ) {
         		foodEaten = 1;
         		seg.removeAll(seg);
-        		seg.add(new Segment(head.x,head.y));
+        		seg.add(new Segment(head.x ,head.y));
+        	
         	}
         }
     }
@@ -171,6 +187,7 @@ public class LeagueSnake extends PApplet {
         // food appear
         if(foodX >= head.x-10 && foodX <= head.x + 10 && foodY >= head.y-10 && foodY <= head.y + 10) {
         	foodEaten ++;
+        	System.out.println(foodEaten);
         	dropFood();
         	drawFood();
         	seg.add(new Segment(head.x,head.y));
